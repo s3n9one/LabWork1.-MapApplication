@@ -1,3 +1,5 @@
+// components/Map.tsx
+
 import React from 'react';
 import { StyleSheet, Dimensions, Alert } from 'react-native';
 import MapView, { MapEvent, Marker as MapMarker } from 'react-native-maps';
@@ -25,8 +27,8 @@ const Map: React.FC<MapProps> = ({ markers, onLongPress }) => {
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 55.751244,
-        longitude: 37.618423,
+        latitude: 58.0,
+        longitude: 56.3167,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }}

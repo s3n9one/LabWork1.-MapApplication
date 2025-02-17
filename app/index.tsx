@@ -1,15 +1,17 @@
-import { Text, View } from "react-native";
+import 'react-native-get-random-values';
+import React from 'react';
+import { MapEvent } from 'react-native-maps';
+import { useMarkers } from '../context/MarkersContext';
+import Map from '../components/Map';
 
-export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
-  );
+export default function Home() {
+  const { markers, addMarker } = useMarkers();
+
+  const handleLongPress = (event: MapEvent) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    addMarker(latitude, longitude);
+  };
+
+  return <Map markers={markers} onLongPress={handleLongPress} />;
 }
+
