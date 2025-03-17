@@ -1,8 +1,6 @@
-// components/Map.tsx
-
 import React from 'react';
-import { StyleSheet, Dimensions, Alert } from 'react-native';
-import MapView, { MapEvent, Marker as MapMarker } from 'react-native-maps';
+import { View, Image, StyleSheet } from 'react-native';
+import MapView, { Marker as MapMarker, MapEvent } from 'react-native-maps';
 import { MarkerData } from '../types';
 import { useRouter } from 'expo-router';
 
@@ -11,23 +9,14 @@ interface MapProps {
   onLongPress: (event: MapEvent) => void;
 }
 
-const Map: React.FC<MapProps> = ({ markers, onLongPress }) => {
+export default function Map({ markers, onLongPress }: MapProps) {
   const router = useRouter();
-
-  const handleMarkerPress = (id: string) => {
-    // Переход на экран деталей маркера
-    try {
-      router.push(`/marker/${id}`);
-    } catch (error) {
-      Alert.alert('Ошибка навигации', 'Не удалось перейти к деталям маркера');
-    }
-  };
 
   return (
     <MapView
       style={styles.map}
       initialRegion={{
-        latitude: 58.0,
+        latitude: 58.0, // Координаты Перми
         longitude: 56.3167,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
@@ -38,18 +27,32 @@ const Map: React.FC<MapProps> = ({ markers, onLongPress }) => {
         <MapMarker
           key={marker.id}
           coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-          onPress={() => handleMarkerPress(marker.id)}
-        />
+          onPress={() => router.push(`/marker/${marker.id}`)}
+        >
+          <View style={styles.markerContainer}>
+            <Image
+              source={require('../assets/images/mark.png')}
+              style={styles.markerImage}
+              resizeMode="contain" // Убираем лишний фон
+            />
+          </View>
+        </MapMarker>
       ))}
     </MapView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: '100%',
+    height: '100%',
+  },
+  markerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  markerImage: {
+    width: 40, // Размер маркера
+    height: 40,
   },
 });
-
-export default Map;
