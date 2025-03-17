@@ -1,23 +1,34 @@
-import 'react-native-get-random-values';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { View, Text, Button, Alert, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useMarkers } from '../../context/MarkersContext';
 import { MarkerData, ImageData } from '../../types';
 import { v4 as uuidv4 } from 'uuid';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function MarkerDetails() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, markers: markersString, updateMarker: updateMarkerString } = useLocalSearchParams<{
+    id: string;
+    markers: string;
+    updateMarker: string;
+  }>();
   const router = useRouter();
-  const { markers, updateMarker } = useMarkers();
+
+  // Десериализуем markers и updateMarker
+  const markers: MarkerData[] = useMemo(() => {
+    return markersString ? JSON.parse(markersString) : [];
+  }, [markersString]);
+
+  const updateMarker: (marker: MarkerData) => void = useMemo(() => {
+    return updateMarkerString ? JSON.parse(updateMarkerString) : () => {};
+  }, [updateMarkerString]);
 
   const [marker, setMarker] = useState<MarkerData | null>(null);
 
   useEffect(() => {
-    // Находим маркер по id из общего списка
-    const foundMarker = markers.find(m => m.id === id) || null;
-    setMarker(foundMarker);
+    if (markers.length > 0 && id) {
+      const foundMarker = markers.find(m => m.id === id) || null;
+      setMarker(foundMarker);
+    }
   }, [id, markers]);
 
   const pickImage = async () => {
@@ -50,7 +61,7 @@ export default function MarkerDetails() {
         images: marker.images.filter(img => img.id !== imageId),
       };
       setMarker(updated);
-      updateMarker(updated);
+      updateMarker(updated); // Обновляем глобальное состояние
     }
   };
 

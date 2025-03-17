@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import MapView, { Marker as MapMarker, MapEvent } from 'react-native-maps';
 import { MarkerData } from '../types';
 import { useRouter } from 'expo-router';
@@ -7,11 +7,10 @@ import { useRouter } from 'expo-router';
 interface MapProps {
   markers: MarkerData[];
   onLongPress: (event: MapEvent) => void;
+  onMarkerPress: (markerId: string) => void;
 }
 
-export default function Map({ markers, onLongPress }: MapProps) {
-  const router = useRouter();
-
+export default function Map({ markers, onLongPress, onMarkerPress }: MapProps) {
   return (
     <MapView
       style={styles.map}
@@ -27,13 +26,13 @@ export default function Map({ markers, onLongPress }: MapProps) {
         <MapMarker
           key={marker.id}
           coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-          onPress={() => router.push(`/marker/${marker.id}`)}
+          onPress={() => onMarkerPress(marker.id)} // Передаем markerId
         >
           <View style={styles.markerContainer}>
             <Image
               source={require('../assets/images/mark.png')}
               style={styles.markerImage}
-              resizeMode="contain" // Убираем лишний фон
+              resizeMode="contain"
             />
           </View>
         </MapMarker>
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   markerImage: {
-    width: 40, // Размер маркера
+    width: 40,
     height: 40,
   },
 });
