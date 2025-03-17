@@ -35,16 +35,26 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
+## Лабораторная работа №1.
 
-To learn more about developing your project with Expo, look at the following resources:
+Разработано мобильное приложение "Карта с маркерами" на React Native с использованием Expo. Приложение позволяет:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- Добавлять маркеры на карту долгим нажатием.
 
-## Join the community
+- Просматривать детали маркера, включая координаты и прикрепленные изображения.
 
-Join our community of developers creating universal apps.
+- Добавлять и удалять изображения для каждого маркера.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Принятые решения и реализованные функции
+
+Использование кастомного маркера:
+Вместо стандартного маркера react-native-maps использовано кастомное изображение. Изображение маркера загружено из локальных ресурсов (require('../assets/images/mark.png')). Стилизация маркера выполнена с помощью resizeMode="contain", чтобы убрать лишний фон.
+
+Управление состоянием маркеров:
+Для управления состоянием маркеров использован массив markers, хранящийся в состоянии компонента Home. Функции addMarker и updateMarker позволяют добавлять и обновлять маркеры.
+
+Добавление и удаление изображений:
+Реализована функция добавления изображений через expo-image-picker. Реализована функция удаления изображений из маркера.
+
+Передача данных между экранами:
+Для передачи данных между экранами использованы параметры маршрута (useLocalSearchParams и useRouter). Массив markers и функция updateMarker передаются через параметры маршрута.
