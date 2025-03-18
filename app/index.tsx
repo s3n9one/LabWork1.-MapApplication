@@ -4,7 +4,7 @@ import Map from '../components/Map';
 import { MarkerData } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import 'react-native-get-random-values';
-import { MapEvent } from 'react-native-maps';
+import { LongPressEvent } from 'react-native-maps';
 import { useRouter } from 'expo-router';
 
 export default function Home() {
@@ -27,15 +27,14 @@ export default function Home() {
     );
   };
 
-  const handleLongPress = (event: MapEvent) => {
-    event.persist();
+  const handleLongPress = (event: LongPressEvent) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     addMarker(latitude, longitude);
   };
 
   const handleMarkerPress = (markerId: string) => {
     router.push({
-      pathname: '/marker/[id]', // Используем зарегистрированный маршрут
+      pathname: '/marker/[id]',
       params: { id: markerId, markers: JSON.stringify(markers), updateMarker: JSON.stringify(updateMarker) },
     });
   };

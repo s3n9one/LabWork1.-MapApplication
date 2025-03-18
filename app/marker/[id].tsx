@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { MarkerData, ImageData } from '../../types';
 import { v4 as uuidv4 } from 'uuid';
 import * as ImagePicker from 'expo-image-picker';
+import ImageList from '@/components/ImageList';
 
 export default function MarkerDetails() {
   const { id, markers: markersString, updateMarker: updateMarkerString } = useLocalSearchParams<{
@@ -81,7 +82,7 @@ export default function MarkerDetails() {
 
       <Button title="Добавить изображение" onPress={pickImage} />
 
-      <FlatList
+      {/* <FlatList
         data={marker.images}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
@@ -93,7 +94,9 @@ export default function MarkerDetails() {
           </View>
         )}
         ListEmptyComponent={<Text style={styles.emptyText}>Нет добавленных изображений.</Text>}
-      />
+      /> */}
+
+      <ImageList images={marker.images} onDelete={deleteImage}/>
 
       <Button title="Назад на карту" onPress={() => router.back()} />
     </View>

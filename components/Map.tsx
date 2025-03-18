@@ -1,14 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import MapView, { Marker as MapMarker, MapEvent } from 'react-native-maps';
-import { MarkerData } from '../types';
-import { useRouter } from 'expo-router';
-
-interface MapProps {
-  markers: MarkerData[];
-  onLongPress: (event: MapEvent) => void;
-  onMarkerPress: (markerId: string) => void;
-}
+import MapView, { Marker as MapMarker } from 'react-native-maps';
+import { MarkerData, MapProps } from '../types';
 
 export default function Map({ markers, onLongPress, onMarkerPress }: MapProps) {
   return (
@@ -22,21 +15,21 @@ export default function Map({ markers, onLongPress, onMarkerPress }: MapProps) {
       }}
       onLongPress={onLongPress}
     >
-      {markers.map(marker => (
-        <MapMarker
-          key={marker.id}
-          coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-          onPress={() => onMarkerPress(marker.id)} // Передаем markerId
-        >
-          <View style={styles.markerContainer}>
-            <Image
-              source={require('../assets/images/mark.png')}
-              style={styles.markerImage}
-              resizeMode="contain"
-            />
-          </View>
-        </MapMarker>
-      ))}
+    {markers.map(marker => (
+      <MapMarker
+        key={marker.id}
+        coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+        onPress={() => onMarkerPress(marker.id)}
+      >
+        <View style={styles.markerContainer}>
+          <Image
+            source={require('../assets/images/mark.png')}
+            style={styles.markerImage}
+            resizeMode="contain"
+          />
+        </View>
+      </MapMarker>
+    ))}
     </MapView>
   );
 }
