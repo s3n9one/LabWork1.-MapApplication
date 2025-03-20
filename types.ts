@@ -10,6 +10,7 @@ export interface MarkerData {
 export interface ImageData {
     id: string;
     uri: string;
+    date: string;
 }
 
 export interface MarkerRouteParams {

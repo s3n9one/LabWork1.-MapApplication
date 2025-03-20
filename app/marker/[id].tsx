@@ -43,6 +43,7 @@ export default function MarkerDetails() {
         const newImage: ImageData = {
           id: uuidv4(),
           uri: result.assets[0].uri,
+          date: new Date().toISOString(),
         };
         if (marker) {
           const updated = { ...marker, images: [...marker.images, newImage] };
@@ -81,20 +82,6 @@ export default function MarkerDetails() {
       <Text>Долгота: {marker.longitude.toFixed(4)}</Text>
 
       <Button title="Добавить изображение" onPress={pickImage} />
-
-      {/* <FlatList
-        data={marker.images}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.imageContainer}>
-            <Image source={{ uri: item.uri }} style={styles.image} />
-            <TouchableOpacity onPress={() => deleteImage(item.id)}>
-              <Text style={styles.deleteText}>Удалить</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        ListEmptyComponent={<Text style={styles.emptyText}>Нет добавленных изображений.</Text>}
-      /> */}
 
       <ImageList images={marker.images} onDelete={deleteImage}/>
 

@@ -20,6 +20,7 @@ const ImageList: React.FC<ImageListProps> = ({ images, onDelete }) => {
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
         <View style={styles.imageContainer}>
+          <Text>Добавлено: {new Date(item.date).toLocaleDateString()}</Text>
           <Image source={{ uri: item.uri }} style={styles.image} />
           <TouchableOpacity onPress={() => onDelete(item.id)}>
             <Text style={styles.deleteText}>Удалить</Text>
